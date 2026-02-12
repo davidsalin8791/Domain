@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematical Modeling: Fairness & Development</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Light Gray Background */
+            color: #1F2937; /* Dark Gray Text */
+        }
+        
+        /* Chart Container Styling - Mandatory Requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constraint for larger screens */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+
+        /* Flowchart CSS styling (Replacing Mermaid) */
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid #3B82F6;
+            flex: 1;
+        }
+        
+        .arrow-down {
+            font-size: 2rem;
+            color: #9CA3AF;
+            margin: 0.5rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .arrow-down {
+                transform: rotate(-90deg);
+                margin: 0 1rem;
+            }
+            .flow-container {
+                flex-direction: row;
+                align-items: stretch;
+            }
+        }
+    </style>
+    <!-- 
+        Palette Selected: Vibrant & Energetic
+        Primary Blue: #2563EB
+        Accent Cyan: #06B6D4
+        Alert Orange: #F97316
+        Data Purple: #7C3AED
+        Success Green: #10B981
+    -->
+    <!-- 
+        Source Material Analysis:
+        - Task 1 (Water): Linear function W(x) = 2x + 10. Shows steady growth.
+        - Task 2 (Housing): Quadratic (downward). Shows rise and fall.
+        - Task 3 (Internet): Quadratic I(x) = -x^2 + 6x + 5. Shows rapid adoption then saturation/decline.
+        - Global Context: Fairness and Development.
+    -->
+    <!-- 
+        Chart Selection Justification (NO SVG):
+        1. Water Access -> Line Chart (Chart.js) -> Best for showing rate of change over time.
+        2. Housing Supply -> Area Chart (Chart.js) -> Emphasizes the volume of housing available.
+        3. Internet Adoption -> Bar Chart (Chart.js) -> Highlights discrete yearly measurements and the peak.
+        4. Comparison -> Radar Chart (Chart.js) -> Multivariable comparison of the models.
+    -->
+</head>
+<body class="antialiased">
+
+    <!-- Header / Hero Section -->
+    <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-8 shadow-lg">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-2">Metrics for Equity</h1>
+                    <p class="text-blue-100 text-lg md:text-xl font-light">Mathematical Modeling in Global Development</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/20">
+                    <div class="text-sm font-semibold uppercase tracking-wider opacity-80">Assessment Focus</div>
+                    <div class="text-2xl font-bold">Interpreting Functions</div>
+                    <div class="text-xs mt-1">Standards F.IF.1, F.IF.4, F.IF.5</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto p-4 md:p-8 space-y-12">
+
+        <!-- Introduction Section -->
+        <section class="bg-white rounded-2xl shadow-md p-6 md:p-10">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4 border-b-4 border-blue-500 inline-block">The Role of Data in Fairness</h2>
+            <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                Exploring relationships through models helps us make sense of complex systems. Whether it is calculating 
+                <span class="font-bold text-blue-600">resource distribution</span>, analyzing 
+                <span class="font-bold text-orange-500">housing markets</span>, or tracking 
+                <span class="font-bold text-purple-600">infrastructure projects</span>, functions provide the evidence needed for equitable decision-making. 
+                This report analyzes three key development scenarios to understand their "Contextual Domain"—the reality behind the numbers.
+            </p>
+            
+            <!-- Key Stat Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+                    <div class="text-4xl mb-2">💧</div>
+                    <h3 class="font-bold text-blue-900 text-lg">Resource Access</h3>
+                    <p class="text-sm text-blue-700 mt-1">Linear models predicting steady supply accumulation.</p>
+                </div>
+                <div class="bg-orange-50 p-6 rounded-xl border border-orange-100">
+                    <div class="text-4xl mb-2">🏠</div>
+                    <h3 class="font-bold text-orange-900 text-lg">Urban Planning</h3>
+                    <p class="text-sm text-orange-700 mt-1">Quadratic trends revealing market saturation points.</p>
+                </div>
+                <div class="bg-purple-50 p-6 rounded-xl border border-purple-100">
+                    <div class="text-4xl mb-2">📶</div>
+                    <h3 class="font-bold text-purple-900 text-lg">Digital Divide</h3>
+                    <p class="text-sm text-purple-700 mt-1">Adoption curves highlighting infrastructure gaps.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Study 1: Water Access -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="order-2 lg:order-1">
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-blue-600">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800">Case 1: Rural Water Security</h2>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">Linear Growth</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        A community organization monitors a new water filtration system. The function 
+                        <code class="bg-gray-100 px-2 py-1 rounded text-blue-600 font-mono">W(x) = 2x + 10</code> 
+                        models the clean water available (in thousands of liters) after <em class="font-serif">x</em> days.
+                    </p>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 font-bold">➤</span>
+                            <div>
+                                <span class="font-bold text-gray-800">Initial Reserve (Intercept):</span>
+                                <p class="text-sm text-gray-600">The system started with <span class="font-bold">10,000 liters</span> (W(0)). This baseline is critical for immediate needs.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2 font-bold">➤</span>
+                            <div>
+                                <span class="font-bold text-gray-800">Growth Rate (Slope):</span>
+                                <p class="text-sm text-gray-600">Production is <span class="font-bold">2,000 liters per day</span>. This constant rate allows for predictable rationing.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p class="text-xs text-blue-800 font-semibold uppercase">Fairness Check</p>
+                        <p class="text-sm text-blue-900 italic">"Is the rate of 2k liters/day sufficient for the population size? A fair model must exceed the daily consumption rate."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chart Container 1 -->
+            <div class="order-1 lg:order-2 bg-white p-4 rounded-2xl shadow-md">
+                <h3 class="text-center text-gray-500 text-sm font-semibold mb-2">Water Accumulation Over 10 Days</h3>
+                <div class="chart-container">
+                    <canvas id="waterChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Study 2: Housing Trends -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <!-- Chart Container 2 -->
+            <div class="bg-white p-4 rounded-2xl shadow-md">
+                <h3 class="text-center text-gray-500 text-sm font-semibold mb-2">Oak Creek Housing Inventory (1970-2030)</h3>
+                <div class="chart-container">
+                    <canvas id="housingChart"></canvas>
+                </div>
+            </div>
+
+            <div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-orange-500">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800">Case 2: Housing Availability</h2>
+                        <span class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full">Quadratic Model</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        Historical data for Oak Creek reveals a parabolic trend in affordable housing units. The curve opens downward, indicating a period of growth followed by a concerning decline.
+                    </p>
+                    <ul class="space-y-3 mb-6">
+                        <li class="flex items-start">
+                            <span class="text-orange-500 mr-2 font-bold">➤</span>
+                            <div>
+                                <span class="font-bold text-gray-800">The Peak (Vertex):</span>
+                                <p class="text-sm text-gray-600">Around the year 2000, housing availability reached its maximum. This represents the "saturation point" of urban development.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-orange-500 mr-2 font-bold">➤</span>
+                            <div>
+                                <span class="font-bold text-gray-800">Decreasing Interval:</span>
+                                <p class="text-sm text-gray-600">Post-2000, the trend is negative. This decline signals gentrification or lack of new construction, threatening equitable access.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="bg-orange-50 p-4 rounded-lg">
+                        <p class="text-xs text-orange-800 font-semibold uppercase">Development Warning</p>
+                        <p class="text-sm text-orange-900 italic">"Without intervention, the model predicts a return to 1970 scarcity levels by 2030."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Study 3: Internet Access -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="order-2 lg:order-1">
+                <div class="bg-white p-6 rounded-2xl shadow-md border-l-8 border-purple-600">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800">Case 3: Digital Inclusion</h2>
+                        <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">Project Adoption</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        The function <code class="bg-gray-100 px-2 py-1 rounded text-purple-600 font-mono">I(x) = -x² + 6x + 5</code> models the percentage of households with internet access <em>x</em> years after a pilot project began.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gray-50 p-3 rounded text-center">
+                            <div class="text-2xl font-bold text-gray-700">5%</div>
+                            <div class="text-xs text-gray-500">Initial Access</div>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded text-center border border-purple-100">
+                            <div class="text-2xl font-bold text-purple-600">14%</div>
+                            <div class="text-xs text-purple-500">Peak Access (Year 3)</div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">
+                        <strong>Common Sense Check (Standard F.IF.5):</strong> The domain is strictly limited. Mathematically, the parabola continues to negative infinity, but in reality, access cannot be negative. The project effectively ends around Year 7 when access drops back to zero.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Chart Container 3 -->
+            <div class="order-1 lg:order-2 bg-white p-4 rounded-2xl shadow-md">
+                <h3 class="text-center text-gray-500 text-sm font-semibold mb-2">Household Connectivity % Over Time</h3>
+                <div class="chart-container">
+                    <canvas id="internetChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section class="bg-gray-800 text-white rounded-2xl shadow-xl p-8">
+            <h2 class="text-2xl font-bold mb-6 text-center">Model Comparison: Sustainability & Fairness</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+                <div class="space-y-4">
+                    <h3 class="text-xl font-semibold text-blue-300">Evaluating the Trends</h3>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        Comparing these models reveals different aspects of development:
+                    </p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><span class="text-blue-400 font-bold">● Water (Linear):</span> High sustainability. Consistent, predictable growth ideal for basic needs.</li>
+                        <li><span class="text-orange-400 font-bold">● Housing (Quadratic):</span> High volatility. The "rise and fall" suggests a need for policy correction to maintain peaks.</li>
+                        <li><span class="text-purple-400 font-bold">● Internet (Quadratic):</span> Short-term impact. Typical of "pilot projects" that lack long-term funding or maintenance.</li>
+                    </ul>
+                    <div class="mt-6 p-4 bg-gray-700 rounded-lg border border-gray-600">
+                        <p class="font-bold text-white mb-1">Conclusion for Policymakers:</p>
+                        <p class="text-xs text-gray-300">Fairness requires sustainability. The Water model supports long-term equity, while the current Housing and Internet models show temporary benefits that require intervention to prevent decline.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Flow Diagram (HTML/Tailwind - No Mermaid) -->
+        <section class="mt-12">
+            <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">The Equitable Decision-Making Cycle</h2>
+            <div class="flow-container flex flex-col md:flex-row justify-between items-center md:items-stretch gap-2">
+                
+                <!-- Step 1 -->
+                <div class="flow-step border-t-blue-500">
+                    <div class="text-3xl mb-2">📊</div>
+                    <h4 class="font-bold text-gray-800">Collect Data</h4>
+                    <p class="text-xs text-gray-500 mt-2">Gather real-world stats (e.g., liters, houses, users).</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="arrow-down">➜</div>
+
+                <!-- Step 2 -->
+                <div class="flow-step border-t-cyan-500">
+                    <div class="text-3xl mb-2">📐</div>
+                    <h4 class="font-bold text-gray-800">Create Model</h4>
+                    <p class="text-xs text-gray-500 mt-2">Fit function (Linear, Quadratic) to the data points.</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="arrow-down">➜</div>
+
+                <!-- Step 3 -->
+                <div class="flow-step border-t-purple-500">
+                    <div class="text-3xl mb-2">🔍</div>
+                    <h4 class="font-bold text-gray-800">Analyze Domain</h4>
+                    <p class="text-xs text-gray-500 mt-2">Identify constraints (F.IF.5). Does negative time make sense?</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="arrow-down">➜</div>
+
+                <!-- Step 4 -->
+                <div class="flow-step border-t-green-500">
+                    <div class="text-3xl mb-2">⚖️</div>
+                    <h4 class="font-bold text-gray-800">Implement Policy</h4>
+                    <p class="text-xs text-gray-500 mt-2">Make decisions that ensure fair access for all.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-2">Generated for Educational Purposes • MYP Mathematics Year 4</p>
+            <p class="text-xs opacity-50">Visualizations rendered using Chart.js</p>
+        </div>
+    </footer>
+
+    <!-- Chart Logic -->
+    <script>
+        // Utility: Label Wrapping Helper Function
+        function wrapLabel(label) {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= 16) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Shared Tooltip Configuration
+        const sharedTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- Chart 1: Water Access (Linear) ---
+        const waterCtx = document.getElementById('waterChart').getContext('2d');
+        
+        // Generate Data W(x) = 2x + 10
+        const waterDays = Array.from({length: 11}, (_, i) => i); // 0 to 10
+        const waterVolume = waterDays.map(x => 2 * x + 10);
+        const waterLabels = waterDays.map(d => wrapLabel(`Day ${d}`));
+
+        new Chart(waterCtx, {
+            type: 'line',
+            data: {
+                labels: waterLabels,
+                datasets: [{
+                    label: 'Available Water (Thousands of Liters)',
+                    data: waterVolume,
+                    borderColor: '#2563EB', // Blue-600
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    pointBackgroundColor: '#2563EB',
+                    pointRadius: 4,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0 // Straight lines for linear
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'top' },
+                    tooltip: sharedTooltipConfig
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Volume (1000s Liters)' }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 2: Housing Trends (Quadratic Area) ---
+        const housingCtx = document.getElementById('housingChart').getContext('2d');
+
+        // Hypothetical Data for Housing Cycle
+        // Vertex at 2000. Points: 1970, 1980, 1990, 2000, 2010, 2020, 2030
+        const housingYears = ['1970', '1980', '1990', '2000', '2010', '2020', '2030'];
+        const housingValues = [4000, 7500, 9500, 10000, 9500, 7500, 4000]; // Symmetric parabola shape
+        const housingLabels = housingYears.map(y => wrapLabel(`Year ${y}`));
+
+        new Chart(housingCtx, {
+            type: 'line',
+            data: {
+                labels: housingLabels,
+                datasets: [{
+                    label: 'Affordable Housing Units',
+                    data: housingValues,
+                    borderColor: '#F97316', // Orange-500
+                    backgroundColor: 'rgba(249, 115, 22, 0.2)', // Orange-500 transparent
+                    pointBackgroundColor: '#F97316',
+                    pointRadius: 5,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4 // Smooth curve for parabola
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true },
+                    tooltip: sharedTooltipConfig
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Units' }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 3: Internet Adoption (Bar/Combo) ---
+        const internetCtx = document.getElementById('internetChart').getContext('2d');
+
+        // Function I(x) = -x^2 + 6x + 5
+        // Domain x = 0 to 7 (stops when negative)
+        const internetYears = [0, 1, 2, 3, 4, 5, 6, 7];
+        const internetValues = internetYears.map(x => -Math.pow(x, 2) + 6 * x + 5);
+        // Correcting the last value: at x=7, -49 + 42 + 5 = -2. Clamp to 0 for display context.
+        const internetDisplayValues = internetValues.map(v => v < 0 ? 0 : v);
+        const internetLabels = internetYears.map(y => wrapLabel(`Year ${y}`));
+
+        new Chart(internetCtx, {
+            type: 'bar',
+            data: {
+                labels: internetLabels,
+                datasets: [{
+                    label: 'Households with Access (%)',
+                    data: internetDisplayValues,
+                    backgroundColor: '#7C3AED', // Purple-600
+                    borderColor: '#5B21B6',
+                    borderWidth: 1,
+                    borderRadius: 4
+                },
+                {
+                    type: 'line',
+                    label: 'Trend Line',
+                    data: internetDisplayValues,
+                    borderColor: '#06B6D4', // Cyan-500
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true },
+                    tooltip: sharedTooltipConfig
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Percent (%)' }
+                    }
+                }
+            }
+        });
+
+        // --- Chart 4: Comparison (Radar) ---
+        const compCtx = document.getElementById('comparisonChart').getContext('2d');
+
+        new Chart(compCtx, {
+            type: 'radar',
+            data: {
+                // Short labels, no wrapping needed usually, but good practice
+                labels: ['Sustainability', 'Initial Cost', 'Fairness', 'Growth Speed', 'Long-term Impact'].map(wrapLabel),
+                datasets: [
+                    {
+                        label: 'Water (Linear)',
+                        data: [90, 40, 85, 60, 95], // High sust, low cost, high fairness
+                        borderColor: '#2563EB',
+                        backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                        pointBackgroundColor: '#2563EB'
+                    },
+                    {
+                        label: 'Housing (Quad)',
+                        data: [40, 80, 50, 70, 30], // Low sust (declines), high cost
+                        borderColor: '#F97316',
+                        backgroundColor: 'rgba(249, 115, 22, 0.2)',
+                        pointBackgroundColor: '#F97316'
+                    },
+                    {
+                        label: 'Internet (Quad)',
+                        data: [30, 60, 60, 90, 20], // Very fast growth, low long-term (project ends)
+                        borderColor: '#7C3AED',
+                        backgroundColor: 'rgba(124, 58, 237, 0.2)',
+                        pointBackgroundColor: '#7C3AED'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: 'white' } },
+                    tooltip: sharedTooltipConfig
+                },
+                scales: {
+                    r: {
+                        ticks: { display: false, backdropColor: 'transparent' },
+                        grid: { color: 'rgba(255, 255, 255, 0.2)' },
+                        angleLines: { color: 'rgba(255, 255, 255, 0.2)' },
+                        pointLabels: { color: 'white', font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
